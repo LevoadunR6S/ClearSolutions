@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @RestController
@@ -30,7 +31,7 @@ public class Controller {
             @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate to) {
 
         return ResponseHandler.responseBuilder(HttpStatus.OK,
-                userService.getUsers(from, to),"users");
+                userService.getUsers(from, to), "users");
     }
 
     @PostMapping("/users")
@@ -39,7 +40,7 @@ public class Controller {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/" + created.getId())
                 .buildAndExpand(user.getId()).toUri();
-        return ResponseHandler.responseBuilder(HttpStatus.CREATED,ResponseEntity.created(location).build(),"user");
+        return ResponseHandler.responseBuilder(HttpStatus.CREATED, ResponseEntity.created(location).build(), "user");
     }
 
     @PutMapping("/users/{userId}")
@@ -51,20 +52,23 @@ public class Controller {
 
     @PatchMapping("/users/{userId}")
     public ResponseEntity<Object> updateSomeUserFields(@PathVariable String userId,
-                                       @Valid @RequestBody User user) {
+                                                       @RequestBody User user) {
         User updated = userService.updatePartOfUser(userId, user);
-        return ResponseHandler.responseBuilder(HttpStatus.OK,updated,"user");
+        return ResponseHandler.responseBuilder(HttpStatus.OK, updated, "user");
     }
 
     @GetMapping("/users/{usersId}")
     public ResponseEntity<Object> getUserDetails(@PathVariable String usersId) {
-        return ResponseHandler
-                .responseBuilder(HttpStatus.OK,userService.getUserById(usersId),"user");
+        User result = userService.getUserById(usersId);
+        if (result != null) {
+            return ResponseHandler.responseBuilder(HttpStatus.OK, result, "user");
+        }
+        else return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, null, "user");
     }
 
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<Object> deleteUser(@PathVariable String userId) {
         userService.deleteUserById(userId);
-        return ResponseHandler.responseBuilder(HttpStatus.OK,"deleted","user");
+        return ResponseHandler.responseBuilder(HttpStatus.OK, "deleted", "user");
     }
 }

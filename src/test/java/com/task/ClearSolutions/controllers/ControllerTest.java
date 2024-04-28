@@ -88,7 +88,18 @@ class ControllerTest {
 
 
     @Test
-    void updateAllUserFields() throws Exception {
+    void updateAllUserFields_ValidUser() throws Exception {
+        String requestJson = toJson(two);
+        when(userService.updateFullUser(one.getId(), two)).thenReturn(one);
+
+        mockMvc.perform(put("/test/api/v1/users/VLegunLviv")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateAllUserFields_InvalidUser() throws Exception {
         String requestJson = toJson(two);
         when(userService.updateFullUser(one.getId(), two)).thenReturn(one);
 
