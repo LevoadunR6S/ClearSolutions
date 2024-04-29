@@ -3,7 +3,7 @@ package com.task.ClearSolutions.controllers;
 import com.task.ClearSolutions.exception.InvalidUserException;
 import com.task.ClearSolutions.model.User;
 import com.task.ClearSolutions.service.UserService;
-import com.task.response.ResponseHandler;
+import com.task.ClearSolutions.response.ResponseHandler;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 
 
 @RestController

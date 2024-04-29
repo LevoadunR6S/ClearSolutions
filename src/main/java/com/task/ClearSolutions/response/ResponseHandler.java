@@ -1,4 +1,4 @@
-package com.task.response;
+package com.task.ClearSolutions.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
